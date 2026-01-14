@@ -1,0 +1,66 @@
+﻿@{
+    ViewData["Title"] = "Document Template Editor";
+    var files = ViewBag.UploadedFiles as List<string> ?? new List<string>();
+}
+
+<div class="container-fluid">
+    <div class="row" style="height: 80vh;">
+
+        <!-- LEFT PANEL -->
+        <div class="col-md-4 border-end p-3" style="overflow-y: auto;">
+            <h4>Select Excel File</h4>
+
+            <select id="excelFilesDropdown" class="form-select mb-3">
+                <option value="">-- Select file --</option>
+                @foreach (var file in files)
+                {
+                    <option value="@file">@file</option>
+                }
+            </select>
+
+            <h5>Columns</h5>
+            <ul id="columnsList" class="list-group"></ul>
+        </div>
+
+        <!-- RIGHT PANEL -->
+        <div class="col-md-8 p-3">
+            <h4>Document Template Editor</h4>
+
+            <!-- SINGLE EDITOR -->
+            <textarea id="docEditor"></textarea>
+
+            // <button id="saveTemplateBtn" class="btn btn-primary mt-3">
+            //     Save Template
+            // </button>
+            <button id="generateDocsBtn" class="btn btn-success mt-3">Generate Documents</button>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+
+    <!-- TinyMCE CDN -->
+    <script src="https://cdn.tiny.cloud/1/bwhs4ef0kqg1rtkb743fhuwscxn6e3y6h106goun4a0fkfft/tinymce/6/tinymce.min.js"
+            referrerpolicy="origin"></script>
+
+    <!-- TinyMCE Init -->
+    <script>
+                tinymce.init({
+            selector: '#docEditor',
+            height: 600,
+            menubar: true,
+            plugins: 'lists link image table code',
+            toolbar: 'undo redo | bold italic underline | styles | bullist numlist | table | code',
+
+            entity_encoding: 'raw',
+            valid_elements: '*[*]',
+            verify_html: false,
+            forced_root_block: 'p'
+        });
+
+    </script>
+
+    <!-- Your custom JS -->
+    <script src="~/js/editor.js"></script>
+}
